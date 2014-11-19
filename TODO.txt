@@ -1,7 +1,6 @@
+DETRMINE WHICH BUTTONS ARE PRESSED FOR INPUT
+
 State System
-	Intro?
-	Menu
-	Options
 	Game Select Screen?
 	Choose (Your Own Adventure)
 	Create (Your Own Adventure)
@@ -13,3 +12,8 @@ Beef Up InputManager
 Easy way to support more fonts
 
 Begin File I/O for game
+
+
+Options
+	Lock Size
+	Input Size

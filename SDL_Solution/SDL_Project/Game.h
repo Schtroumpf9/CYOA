@@ -1,9 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-// CONST CORRECTNESS THROUGHOUT
-
-// Move FPS timer to BaseState?
+// TODO: Add Quit Pop-Up To ask for yes or no
 
 #include "structs.h"
 

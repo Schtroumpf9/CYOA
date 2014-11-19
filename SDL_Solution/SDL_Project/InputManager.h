@@ -17,6 +17,7 @@ public:
 	bool QuitEvent(void);
 	bool WindowResizeEvent(void);
 	bool SelectEvent(void);
+	bool AnyEvent(void);
 
 	// Event Data Accessors
 	SDL_Point GetWindowSize(void);
@@ -31,6 +32,7 @@ private:
 	bool m_bQuit;
 	bool m_bWindowResize;
 	bool m_bSelect;
+	bool m_bAny;
 
 	// Event Data
 	SDL_Point m_tWindowSize;

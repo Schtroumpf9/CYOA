@@ -18,7 +18,7 @@ void CFontManager::Initialize(CRenderManager* pRenderManager)
 
 	SDL_ERROR_CHECK(TTF_Init() == -1, "SDL_ttf could not initialize!");
 
-	m_pTTFont = TTF_OpenFont("../Fonts/calibri.ttf", 72);
+	m_pTTFont = TTF_OpenFont("../Fonts/vgaoem.fon", 72);
 }
 
 void CFontManager::Shutdown(void)
@@ -53,6 +53,7 @@ void CFontManager::TTFChangeTextData(CQuad* out_pQuad, const TextData& tData)
 	float newWidth = (tDstRect.w / tDstRect.h) * tData.pt;
 	SetTextDstRect(tDstRect, tData, newWidth);
 	out_pQuad->SetDstRect(tDstRect);
+	m_pRenderManager->UpdateQuad(out_pQuad);
 }
 
 // Helpers

@@ -5,7 +5,9 @@
 #include "InputManager.h"
 #include "FontManager.h"
 #include "Quad.h"
+#include "IntroState.h"
 #include "MenuState.h"
+#include "OptionsState.h"
 #include "GameState.h"
 
 CGame::CGame(void) : m_pRenderManager(NULL), m_pTextureManager(NULL), m_pInputManager(NULL), m_pFontManager(NULL), m_pCurrentState(NULL)
@@ -32,7 +34,7 @@ void CGame::Initialize(void)
 	m_pFontManager = new CFontManager;
 	m_pFontManager->Initialize(m_pRenderManager);
 
-	m_pCurrentState = new CMenuState;
+	m_pCurrentState = new CIntroState;
 	m_pCurrentState->Initialize(m_pRenderManager, m_pTextureManager, m_pInputManager, m_pFontManager);
 
 	m_unTime = SDL_GetTicks();
@@ -79,13 +81,19 @@ void CGame::ChangeStates(const eSTATE_TYPE& eState)
 
 	switch (eState)
 	{
+	case INTRO_STATE:
+		m_pCurrentState = new CIntroState;
+		break;
 	case MENU_STATE:
 		m_pCurrentState = new CMenuState;
-		m_pCurrentState->Initialize(m_pRenderManager, m_pTextureManager, m_pInputManager, m_pFontManager);
+		break;
+	case OPTIONS_STATE:
+		m_pCurrentState = new COptionsState;
 		break;
 	case GAME_STATE:
 		m_pCurrentState = new CGameState;
-		m_pCurrentState->Initialize(m_pRenderManager, m_pTextureManager, m_pInputManager, m_pFontManager);
 		break;
 	}
+
+	m_pCurrentState->Initialize(m_pRenderManager, m_pTextureManager, m_pInputManager, m_pFontManager);
 }
