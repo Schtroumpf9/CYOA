@@ -1,0 +1,15 @@
+State System
+	Intro?
+	Menu
+	Options
+	Game Select Screen?
+	Choose (Your Own Adventure)
+	Create (Your Own Adventure)
+
+Beef Up InputManager
+ - More Input Options
+ - Examples in states
+
+Easy way to support more fonts
+
+Begin File I/O for game
