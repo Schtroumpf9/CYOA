@@ -77,34 +77,34 @@ void CFontManager::SetTextDstRect(FloatRect& out_tDstRect, const TextData& tData
 	switch (tData.type)
 	{
 	case TOP_LEFT:
-		out_tDstRect = FloatRect(tData.x, tData.y, width, tData.pt);
+		out_tDstRect = FloatRect{ tData.x, tData.y, width, tData.pt };
 		break;
 	case TOP_MIDDLE:
 		x = tData.x - (width / 2);
-		out_tDstRect = FloatRect(x, tData.y, width, tData.pt);
+		out_tDstRect = FloatRect{ x, tData.y, width, tData.pt };
 		break;
 	case TOP_RIGHT:
 		x = tData.x - width;
-		out_tDstRect = FloatRect(x, tData.y, width, tData.pt);
+		out_tDstRect = FloatRect{ x, tData.y, width, tData.pt };
 		break;
 	case MIDDLE:
 		x = tData.x - (width / 2);
 		y = tData.y - (tData.pt / 2);
-		out_tDstRect = FloatRect(x, y, width, tData.pt);
+		out_tDstRect = FloatRect{ x, y, width, tData.pt };
 		break;
 	case BOTTOM_LEFT:
 		y = tData.y - tData.pt;
-		out_tDstRect = FloatRect(tData.x, y, width, tData.pt);
+		out_tDstRect = FloatRect{ tData.x, y, width, tData.pt };
 		break;
 	case BOTTOM_MIDDLE:
 		y = tData.y - tData.pt;
 		x = tData.x - (width / 2);
-		out_tDstRect = FloatRect(x, y, width, tData.pt);
+		out_tDstRect = FloatRect{ x, y, width, tData.pt };
 		break;
 	case BOTTOM_RIGHT:
 		y = tData.y - tData.pt;
 		x = tData.x - width;
-		out_tDstRect = FloatRect(x, y, width, tData.pt);
+		out_tDstRect = FloatRect{ x, y, width, tData.pt };
 		break;
 	default:
 		break;

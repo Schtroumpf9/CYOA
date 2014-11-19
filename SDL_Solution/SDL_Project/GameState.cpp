@@ -18,7 +18,7 @@ void CGameState::Initialize(CRenderManager* pRenderManager, CTextureManager* pTe
 	CBaseState::Initialize(pRenderManager, pTextureManager, pInputManager, pFontManager);
 
 	// Add Initial Images
-	SDL_Color color = {255, 0, 255, 255};
+	SDL_Color color {255, 0, 255, 255};
 	FloatRect dstRect = {0.0f, 0.0f, 0.25f, 0.25f};
 	CQuad* pQuad;
 	CreateQuad(NULL, dstRect, MID, color);

@@ -23,26 +23,26 @@ void CMenuState::Initialize(CRenderManager* pRenderManager, CTextureManager* pTe
 	float fWidth;
 
 	// Background
-	CreateQuad(NULL, FloatRect(0.f, 0.f, 1.f, 1.f), BACK, SDL_Color(0,0,0,255));
+	CreateQuad(NULL, FloatRect{ 0.f, 0.f, 1.f, 1.f }, BACK, SDL_Color{ 0, 0, 0, 255 });
 
 	// Options Text
-	pText = m_pFontManager->TTFCreateText("Options", SDL_Color(0,127,0,255), TextData(.05f, .05f, .05f, TOP_LEFT));
+	pText = m_pFontManager->TTFCreateText("Options", SDL_Color{ 0, 127, 0, 255 }, TextData{ .05f, .05f, .05f, TOP_LEFT });
 
 	// Options Button
 	fWidth = pText->GetDstRect().w + 0.1f;
-	pQuad = CreateQuad(NULL, FloatRect(0.f, 0.f, fWidth, .15f), MID, SDL_Color(127,127,127,255));
+	pQuad = CreateQuad(NULL, FloatRect{ 0.f, 0.f, fWidth, .15f }, MID, SDL_Color{ 127, 127, 127, 255 });
 	m_Buttons.push_front(pQuad);
 
 	// Quit Text
-	pText = m_pFontManager->TTFCreateText("Quit", SDL_Color(0,255,0,255), TextData(.95f, .05f, 0.05f, TOP_RIGHT));
+	pText = m_pFontManager->TTFCreateText("Quit", SDL_Color{ 0, 255, 0, 255 }, TextData{ .95f, .05f, 0.05f, TOP_RIGHT });
 
 	// Quit Button
 	fWidth = pText->GetDstRect().w + 0.1f;
-	pQuad = CreateQuad(NULL, FloatRect(1.f - fWidth, 0.f, fWidth, .15f), MID, SDL_Color(127,0,0,255));
+	pQuad = CreateQuad(NULL, FloatRect{ 1.f - fWidth, 0.f, fWidth, .15f }, MID, SDL_Color{ 127, 0, 0, 255 });
 	m_Buttons.push_front(pQuad);
 
 	// Menu Text
-	pText = m_pFontManager->TTFCreateText("Play", SDL_Color(0,127,127,255), TextData(.5f, .5f, .1f, MIDDLE));
+	pText = m_pFontManager->TTFCreateText("Play", SDL_Color{ 0, 127, 127, 255 }, TextData{ .5f, .5f, .1f, MIDDLE });
 }
 
 eSTATE_TYPE CMenuState::Update(float fDeltaTime)
