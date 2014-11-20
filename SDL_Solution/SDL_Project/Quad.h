@@ -7,7 +7,7 @@ class CQuad
 {
 public:
 	// Constructors
-	CQuad(SDL_Texture* pTexture = NULL, eLAYER ucLayer = MID, SDL_Color tColor = { 255, 255, 255, 255 }, FloatRect tDstRect = { 0.0f, 0.0f, 1.0f, 1.0f });
+	CQuad(SDL_Texture* pTexture = NULL, eLAYER ucLayer = MID_LAYER, SDL_Color tColor = { 255, 255, 255, 255 }, FloatRect tDstRect = { 0.0f, 0.0f, 1.0f, 1.0f });
 	// Destructors
 	~CQuad(void);
 

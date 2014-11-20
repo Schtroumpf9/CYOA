@@ -1,5 +1,3 @@
-DETRMINE WHICH BUTTONS ARE PRESSED FOR INPUT
-
 State System
 	Game Select Screen?
 	Choose (Your Own Adventure)

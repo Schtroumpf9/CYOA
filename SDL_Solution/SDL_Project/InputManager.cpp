@@ -14,16 +14,17 @@ void CInputManager::Initialize(void)
 {
 	m_bQuit = false;
 	m_bWindowResize = false;
-	m_bSelect = false;
+	m_bSelectorUp = false;
+	m_bSelectorDown = false;
 	m_bAny = false;
 
 	m_tWindowSize.x = m_tWindowSize.y = 0;
-	m_tSelectPos.x = m_tSelectPos.y = 0;
+	m_tSelectorPos.x = m_tSelectorPos.y = 0;
 }
 
 void CInputManager::Input(void)
 {
-	m_bSelect = false;
+	m_bSelectorUp = false;
 	m_bQuit = false;
 	m_bWindowResize = false;
 	m_bAny = false;
@@ -51,13 +52,14 @@ void CInputManager::Input(void)
 			KeyUp(e);
 			m_bAny = true;
 			break;
+		case SDL_MOUSEBUTTONDOWN:
 		case SDL_MOUSEBUTTONUP:
-			MouseUp(e);
+			MouseClick(e);
 			m_bAny = true;
 			break;
 		case SDL_MOUSEMOTION:
-			m_tSelectPos.x = e.motion.x;
-			m_tSelectPos.y = e.motion.y;
+			m_tSelectorPos.x = e.motion.x;
+			m_tSelectorPos.y = e.motion.y;
 			break;
 		}
 	}
@@ -79,9 +81,14 @@ bool CInputManager::WindowResizeEvent(void)
 	return m_bWindowResize;
 }
 
-bool CInputManager::SelectEvent(void)
+bool CInputManager::SelectorUpEvent(void)
 {
-	return m_bSelect;
+	return m_bSelectorUp;
+}
+
+bool CInputManager::SelectorDownEvent(void)
+{
+	return m_bSelectorDown;
 }
 
 bool CInputManager::AnyEvent(void)
@@ -95,9 +102,9 @@ SDL_Point CInputManager::GetWindowSize(void)
 	return m_tWindowSize;
 }
 
-SDL_Point CInputManager::GetSelectPoint(void)
+SDL_Point CInputManager::GetSelectorPos(void)
 {
-	return m_tSelectPos;
+	return m_tSelectorPos;
 }
 
 // Input Helpers
@@ -111,7 +118,7 @@ void CInputManager::KeyUp(SDL_Event e)
 	}
 }
 
-void CInputManager::MouseUp(SDL_Event e)
+void CInputManager::MouseClick(SDL_Event e)
 {
 	switch (e.button.button)
 	{
@@ -119,9 +126,15 @@ void CInputManager::MouseUp(SDL_Event e)
 	{
 		if (e.button.clicks >= 1)
 		{
-			m_tSelectPos.x = e.button.x;
-			m_tSelectPos.y = e.button.y;
-			m_bSelect = true;
+			m_tSelectorPos.x = e.button.x;
+			m_tSelectorPos.y = e.button.y;
+			if (e.type == SDL_MOUSEBUTTONUP)
+			{
+				m_bSelectorUp = true;
+				m_bSelectorDown = false;
+			}
+			else if (e.type == SDL_MOUSEBUTTONDOWN)
+				m_bSelectorDown = true;
 		}
 	}
 		break;

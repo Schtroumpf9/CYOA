@@ -9,7 +9,7 @@
 #include "FontManager.h"
 #include "Quad.h"
 #include "structs.h"
-#include <forward_list>
+#include <map>
 #include <sstream>
 
 class CBaseState
@@ -28,7 +28,7 @@ public:
 
 protected:
 	// Helpers
-	CQuad* CreateQuad(const char* szTextureName = NULL, const FloatRect& tDstRect = { 0.0f, 0.0f, 1.0f, 1.0f }, const eLAYER& ucLayer = MID, const SDL_Color& tColor = { 255, 255, 255, 255 });
+	CQuad* CreateQuad(const char* szTextureName = NULL, const FloatRect& tDstRect = { 0.0f, 0.0f, 1.0f, 1.0f }, const eLAYER& ucLayer = MID_LAYER, const SDL_Color& tColor = { 255, 255, 255, 255 });
 
 	eSTATE_TYPE m_eType;
 
@@ -39,7 +39,8 @@ protected:
 	CFontManager* m_pFontManager;
 
 	// Buttons to check against input
-	std::forward_list<CQuad*> m_Buttons;
+	std::map<Sint16, CQuad*> m_Buttons;
+	Sint16 m_sOverKey;
 
 private:
 	// FPS Data

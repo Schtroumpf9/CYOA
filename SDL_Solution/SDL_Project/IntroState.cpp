@@ -20,10 +20,10 @@ void CIntroState::Initialize(CRenderManager* pRenderManager, CTextureManager* pT
 	// Add Initial Images
 	CQuad* pText;
 	SDL_Color tLightGray{ 0xd3, 0xd3, 0xd3, 0 };
-	TextData tPosition{ 0.5f, 0.5f, 0.1f, MIDDLE };
+	TextData tPosition{ 0.5f, 0.5f, 0.1f, MIDDLE_POS };
 
-	// Background
-	CreateQuad(NULL, FloatRect{ 0.f, 0.f, 1.f, 1.f }, BACK, SDL_Color{ 0, 0, 0, 255 });
+	// BACK_LAYERground
+	CreateQuad(NULL, FloatRect{ 0.f, 0.f, 1.f, 1.f }, BACK_LAYER, SDL_Color{ 0, 0, 0, 255 });
 
 	// Author
 	pText = m_pFontManager->TTFCreateText("Alex Kahl", tLightGray, tPosition);

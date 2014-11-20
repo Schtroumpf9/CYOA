@@ -34,7 +34,7 @@ CQuad* CFontManager::TTFCreateText(const char* szText, const SDL_Color& tColor, 
 	FloatRect tDstRect;
 	SDL_Texture* pTexture = TTFLoadText(fWidth, szText, tColor, tData.pt);
 	SetTextDstRect(tDstRect, tData, fWidth);
-	pQuad = new CQuad(pTexture, FRONT, tColor, tDstRect);
+	pQuad = new CQuad(pTexture, FRONT_LAYER, tColor, tDstRect);
 	m_pRenderManager->AddQuad(pQuad);
 	return pQuad;
 }
@@ -77,32 +77,32 @@ void CFontManager::SetTextDstRect(FloatRect& out_tDstRect, const TextData& tData
 	float x, y;
 	switch (tData.type)
 	{
-	case TOP_LEFT:
+	case TOP_LEFT_POS:
 		out_tDstRect = FloatRect{ tData.x, tData.y, width, tData.pt };
 		break;
-	case TOP_MIDDLE:
+	case TOP_MIDDLE_POS:
 		x = tData.x - (width / 2);
 		out_tDstRect = FloatRect{ x, tData.y, width, tData.pt };
 		break;
-	case TOP_RIGHT:
+	case TOP_RIGHT_POS:
 		x = tData.x - width;
 		out_tDstRect = FloatRect{ x, tData.y, width, tData.pt };
 		break;
-	case MIDDLE:
+	case MIDDLE_POS:
 		x = tData.x - (width / 2);
 		y = tData.y - (tData.pt / 2);
 		out_tDstRect = FloatRect{ x, y, width, tData.pt };
 		break;
-	case BOTTOM_LEFT:
+	case BOTTOM_LEFT_POS:
 		y = tData.y - tData.pt;
 		out_tDstRect = FloatRect{ tData.x, y, width, tData.pt };
 		break;
-	case BOTTOM_MIDDLE:
+	case BOTTOM_MIDDLE_POS:
 		y = tData.y - tData.pt;
 		x = tData.x - (width / 2);
 		out_tDstRect = FloatRect{ x, y, width, tData.pt };
 		break;
-	case BOTTOM_RIGHT:
+	case BOTTOM_RIGHT_POS:
 		y = tData.y - tData.pt;
 		x = tData.x - width;
 		out_tDstRect = FloatRect{ x, y, width, tData.pt };

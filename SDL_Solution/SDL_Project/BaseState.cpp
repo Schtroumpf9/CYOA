@@ -25,12 +25,13 @@ void CBaseState::Initialize(CRenderManager* pRenderManager, CTextureManager* pTe
 	m_fFPS = 0.0f;
 
 	SDL_Color tColor = { 255, 0, 0, 255 };
-	TextData tData = { 0.0f, 1.0f, 0.025f, BOTTOM_LEFT };
+	TextData tData = { 0.0f, 1.0f, 0.025f, BOTTOM_LEFT_POS };
 	m_pFPSTextQuad = m_pFontManager->TTFCreateText("FPS: ", tColor, tData);
 
 	tData.x += m_pFPSTextQuad->GetDstRect().w;
 	m_pFPSQuad = m_pFontManager->TTFCreateText("0.0f", tColor, tData);
 
+	m_sOverKey = INVALID_BUTTON;
 
 	// Last Thing!
 	m_unStartTime = SDL_GetTicks();
