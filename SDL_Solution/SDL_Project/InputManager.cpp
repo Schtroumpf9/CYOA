@@ -53,8 +53,8 @@ void CInputManager::Input(void)
 				m_tWindowSize.x = e.window.data1;
 				m_tWindowSize.y = e.window.data2;
 			}
-		}
 			break;
+		}
 		case SDL_KEYDOWN:
 			m_KeyStates[e.key.keysym.sym] = KEY_DOWN;
 			m_bAny = true;
@@ -71,6 +71,8 @@ void CInputManager::Input(void)
 		case SDL_MOUSEMOTION:
 			m_tSelectorPos.x = e.motion.x;
 			m_tSelectorPos.y = e.motion.y;
+			break;
+		default:
 			break;
 		}
 	}
@@ -161,8 +163,8 @@ void CInputManager::MouseClick(SDL_Event e)
 			else if (e.type == SDL_MOUSEBUTTONDOWN)
 				m_bSelectorDown = true;
 		}
-	}
 		break;
+	}
 	}
 }
 

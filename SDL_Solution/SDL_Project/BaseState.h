@@ -1,8 +1,6 @@
 #ifndef BASE_STATE_H
 #define BASE_STATE_H
 
-// TODO: Change to map of buttons to determine which button is pressed
-
 #include "RenderManager.h"
 #include "TextureManager.h"
 #include "InputManager.h"
@@ -28,7 +26,8 @@ public:
 
 protected:
 	// Helpers
-	CQuad* CreateQuad(const char* szTextureName = NULL, const FloatRect& tDstRect = { 0.0f, 0.0f, 1.0f, 1.0f }, const eLAYER& ucLayer = MID_LAYER, const SDL_Color& tColor = { 255, 255, 255, 255 });
+	CQuad* CreateQuad(const char* szTextureName = NULL, const FloatRect& tDstRect = { 0.0f, 0.0f, 1.0f, 1.0f },
+		const eLAYER eLayer = MID_LAYER, const eQUAD_TYPE eType = CUSTOM_QUAD, const SDL_Color& tColor = { 255, 255, 255, 255 });
 	void ProcessButtons(void);
 
 	eSTATE_TYPE m_eType;

@@ -19,21 +19,24 @@ void CMenuState::Initialize(CRenderManager* pRenderManager, CTextureManager* pTe
 	// Add Initial Images
 
 	// Background
-	CreateQuad(NULL, FloatRect{ 0.f, 0.f, 1.f, 1.f }, BACK_LAYER/*, SDL_Color{ 0, 0, 0, 255 }*/);
+	CreateQuad(NULL, FloatRect{ 0.f, 0.f, 1.f, 1.f }, BACK_LAYER, CUSTOM_QUAD, SDL_Color{ 0, 0, 0, 255 });
 
 	// Options Button
-	m_Buttons[OPTIONS_MENU_BUTTON] = CreateQuad("OptionsButton.png", FloatRect{ .028125f, .05f, .05625f, .1f }, MID_LAYER, SDL_Color{ 127, 127, 127, 255 });
+	m_Buttons[OPTIONS_MENU_BUTTON] = CreateQuad("OptionsButton.png", FloatRect{ .05f, .05f, .1f, .1f }, MID_LAYER, SQUAREH_QUAD, SDL_Color{ 127, 127, 127, 255 });
 
 	// Quit Button
-	m_Buttons[QUIT_MENU_BUTTON] = CreateQuad("QuitButton.png", FloatRect{ 1.f - .028125f - .05625f, .05f, .05625f, .1f }, MID_LAYER, SDL_Color{ 127, 0, 0, 255 });
+	m_Buttons[QUIT_MENU_BUTTON] = CreateQuad("QuitButton.png", FloatRect{ 1.6278, .05f, .1f, .1f }, MID_LAYER, SQUAREH_QUAD, SDL_Color{ 127, 0, 0, 255 });
 
 	// Menu Buttons
-	SDL_Color tColor = { 0, 0, 0, 255 };
-	m_Buttons[CHOOSE_MENU_BUTTON] = m_pFontManager->TTFCreateText("Choose", tColor, TextData{ .45f, .45f, .05f, BOTTOM_RIGHT_POS });
+	SDL_Color tColor = { 0, 255, 0, 255 };
+	m_Buttons[CHOOSE_MENU_BUTTON] = m_pFontManager->TTFCreateText("Choose", tColor, TextData{ .33f, .45f, .05f, BOTTOM_RIGHT_POS });
 
-	m_Buttons[CREATE_MENU_BUTTON] = m_pFontManager->TTFCreateText("Create", tColor, TextData{ .45f, .55f, .05f, TOP_RIGHT_POS });
+	m_Buttons[CREATE_MENU_BUTTON] = m_pFontManager->TTFCreateText("Create", tColor, TextData{ .33f, .55f, .05f, TOP_RIGHT_POS });
 
-	m_pFontManager->TTFCreateText("Your Own Adventure", tColor, TextData{ .55f, .475f, .05f, TOP_LEFT_POS });
+	m_pFontManager->TTFCreateText("Your Own Adventure", tColor, TextData{ .43f, .475f, .05f, TOP_LEFT_POS });
+
+	// Menu Fluff
+	CreateQuad("MenuBracket.png", FloatRect{ .33f, .425f, .1f, .15f }, MID_LAYER, CUSTOM_QUAD, SDL_Color{ 0, 127, 0, 255 });
 }
 
 eSTATE_TYPE CMenuState::Update(float fDeltaTime)
@@ -62,6 +65,12 @@ eSTATE_TYPE CMenuState::Update(float fDeltaTime)
 				break;
 			case OPTIONS_MENU_BUTTON:
 				return OPTIONS_STATE;
+			case CHOOSE_MENU_BUTTON:
+				return GAME_STATE;
+			case CREATE_MENU_BUTTON:
+				return TOOL_STATE;
+			default:
+				break;
 			}
 		}
 	}

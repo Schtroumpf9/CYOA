@@ -96,7 +96,6 @@ void CRenderManager::RemoveQuad(CQuad* pQuad)
 		if (pQuad == (*quadIter))
 		{
 			m_Quads.remove(pQuad);
-			// TODO: Determine whether or not to delete Quad as well
 		}
 	}
 }
@@ -115,10 +114,36 @@ void CRenderManager::UpdateQuad(CQuad* pQuad)
 {
 	// Set Quad Data in terms of the Window size
 	SDL_Rect tPixelDstRect;
-	tPixelDstRect.x = static_cast<int>(pQuad->GetDstRect().x * m_unWindowWidth);
-	tPixelDstRect.y = static_cast<int>(pQuad->GetDstRect().y * m_unWindowHeight);
-	tPixelDstRect.w = static_cast<int>(pQuad->GetDstRect().w * m_unWindowWidth);
-	tPixelDstRect.h = static_cast<int>(pQuad->GetDstRect().h * m_unWindowHeight);
+	switch (pQuad->GetQuadType())
+	{
+	case CUSTOM_QUAD:
+	{
+		tPixelDstRect.x = static_cast<int>(pQuad->GetDstRect().x * m_unWindowWidth);
+		tPixelDstRect.y = static_cast<int>(pQuad->GetDstRect().y * m_unWindowHeight);
+		tPixelDstRect.w = static_cast<int>(pQuad->GetDstRect().w * m_unWindowWidth);
+		tPixelDstRect.h = static_cast<int>(pQuad->GetDstRect().h * m_unWindowHeight);
+		break;
+	}
+	case SQUAREW_QUAD:
+	{
+		tPixelDstRect.x = static_cast<int>(pQuad->GetDstRect().x * m_unWindowWidth);
+		tPixelDstRect.y = static_cast<int>(pQuad->GetDstRect().y * m_unWindowWidth);
+		tPixelDstRect.w = static_cast<int>(pQuad->GetDstRect().w * m_unWindowWidth);
+		tPixelDstRect.h = static_cast<int>(pQuad->GetDstRect().h * m_unWindowWidth);
+		break;
+	}
+	case SQUAREH_QUAD:
+	{
+		tPixelDstRect.x = static_cast<int>(pQuad->GetDstRect().x * m_unWindowHeight);
+		tPixelDstRect.y = static_cast<int>(pQuad->GetDstRect().y * m_unWindowHeight);
+		tPixelDstRect.w = static_cast<int>(pQuad->GetDstRect().w * m_unWindowHeight);
+		tPixelDstRect.h = static_cast<int>(pQuad->GetDstRect().h * m_unWindowHeight);
+		break;
+	}
+	default:
+		break;
+	}
+
 
 	pQuad->SetPixelDstRect(tPixelDstRect);
 }

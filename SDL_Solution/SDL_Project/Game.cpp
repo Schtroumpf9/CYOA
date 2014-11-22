@@ -9,6 +9,7 @@
 #include "MenuState.h"
 #include "OptionsState.h"
 #include "GameState.h"
+#include "ToolState.h"
 
 CGame::CGame(void) : m_pRenderManager(NULL), m_pTextureManager(NULL), m_pInputManager(NULL), m_pFontManager(NULL), m_pCurrentState(NULL)
 {
@@ -92,6 +93,11 @@ void CGame::ChangeStates(const eSTATE_TYPE& eState)
 		break;
 	case GAME_STATE:
 		m_pCurrentState = new CGameState;
+		break;
+	case TOOL_STATE:
+		m_pCurrentState = new CToolState;
+		break;
+	default:
 		break;
 	}
 

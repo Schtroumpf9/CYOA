@@ -35,7 +35,7 @@ CQuad* CFontManager::TTFCreateText(const char* szText, const SDL_Color& tColor, 
 	FloatRect tDstRect;
 	SDL_Texture* pTexture = TTFLoadText(fWidth, szText, tColor, tData.pt);
 	SetTextDstRect(tDstRect, tData, fWidth);
-	pQuad = new CQuad(pTexture, FRONT_LAYER, tColor, tDstRect);
+	pQuad = new CQuad(pTexture, tDstRect, FRONT_LAYER, CUSTOM_QUAD, tColor);
 	m_pRenderManager->AddQuad(pQuad);
 	return pQuad;
 }

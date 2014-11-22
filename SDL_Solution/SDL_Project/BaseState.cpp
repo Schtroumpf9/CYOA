@@ -59,17 +59,17 @@ void CBaseState::Shutdown(void)
 }
 
 // Helpers
-CQuad* CBaseState::CreateQuad(const char* szTextureName, const FloatRect& tDstRect, const eLAYER& ucLayer, const SDL_Color& tColor)
+CQuad* CBaseState::CreateQuad(const char* szTextureName, const FloatRect& tDstRect, const eLAYER eLayer, const eQUAD_TYPE eType, const SDL_Color& tColor)
 {
 	CQuad* pQuad;
 	if (szTextureName == NULL)
 	{
-		pQuad = new CQuad(NULL, ucLayer, tColor, tDstRect);
+		pQuad = new CQuad(NULL, tDstRect, eLayer, eType, tColor);
 	}
 	else
 	{
 		SDL_Texture* pTexture = m_pTextureManager->GetTexture(szTextureName);
-		pQuad = new CQuad(pTexture, ucLayer, tColor, tDstRect);
+		pQuad = new CQuad(pTexture, tDstRect, eLayer, eType, tColor);
 	}
 
 	m_pRenderManager->AddQuad(pQuad);

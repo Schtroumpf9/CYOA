@@ -23,7 +23,7 @@ void CIntroState::Initialize(CRenderManager* pRenderManager, CTextureManager* pT
 	TextData tPosition{ 0.5f, 0.5f, 0.1f, MIDDLE_POS };
 
 	// BACK_LAYERground
-	CreateQuad(NULL, FloatRect{ 0.f, 0.f, 1.f, 1.f }, BACK_LAYER, SDL_Color{ 0, 0, 0, 255 });
+	CreateQuad(NULL, FloatRect{ 0.f, 0.f, 1.f, 1.f }, BACK_LAYER, CUSTOM_QUAD, SDL_Color{ 0, 0, 0, 255 });
 
 	// Author
 	pText = m_pFontManager->TTFCreateText("Alex Kahl", tLightGray, tPosition);

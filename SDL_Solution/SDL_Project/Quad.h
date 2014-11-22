@@ -7,7 +7,7 @@ class CQuad
 {
 public:
 	// Constructors
-	CQuad(SDL_Texture* pTexture = NULL, eLAYER ucLayer = MID_LAYER, SDL_Color tColor = { 255, 255, 255, 255 }, FloatRect tDstRect = { 0.0f, 0.0f, 1.0f, 1.0f });
+	CQuad(SDL_Texture* pTexture = NULL, FloatRect tDstRect = { 0.0f, 0.0f, 1.0f, 1.0f }, eLAYER eLayer = MID_LAYER, eQUAD_TYPE eType = CUSTOM_QUAD, SDL_Color tColor = { 255, 255, 255, 255 });
 	// Destructors
 	~CQuad(void);
 
@@ -18,7 +18,6 @@ public:
 	inline void SetTexture(SDL_Texture* pTexture) { m_pTexture = pTexture; }
 	inline void SetPixelDstRect(SDL_Rect tPixelDstRect) { m_tPixelDstRect = tPixelDstRect; }
 	inline void SetPixelSrcRect(SDL_Rect tPixelSrcRect) { m_tPixelSrcRect = tPixelSrcRect; }
-	inline void SetLayer(eLAYER ucLayer) { m_ucLayer = ucLayer; }
 	// Accessors
 	inline SDL_Color GetColor(void) const { return m_tColor; }
 	inline FloatRect GetSrcRect(void) const { return m_tSrcRect; }
@@ -26,7 +25,8 @@ public:
 	inline SDL_Texture* GetTexture(void) const { return m_pTexture; }
 	inline SDL_Rect GetPixelDstRect(void) const { return m_tPixelDstRect; }
 	inline SDL_Rect GetPixelSrcRect(void) const { return m_tPixelSrcRect; }
-	inline eLAYER GetLayer(void) const { return m_ucLayer; }
+	inline eLAYER GetLayer(void) const { return m_eLayer; }
+	inline eQUAD_TYPE GetQuadType(void) const { return m_eType; }
 
 private:
 	// Quad data
@@ -34,7 +34,8 @@ private:
 	SDL_Color m_tColor;
 	FloatRect m_tDstRect;
 	FloatRect m_tSrcRect;
-	eLAYER m_ucLayer;
+	eLAYER m_eLayer;
+	eQUAD_TYPE m_eType;
 
 	// Pixel Rects
 	SDL_Rect m_tPixelDstRect;

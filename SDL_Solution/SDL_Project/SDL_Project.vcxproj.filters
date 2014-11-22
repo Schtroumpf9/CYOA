@@ -54,6 +54,9 @@
     <ClCompile Include="OptionsState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ToolState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -98,5 +101,13 @@
     <ClInclude Include="OptionsState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ToolState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Adventures\Available.bin">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -82,6 +82,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ToolState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseState.h" />
@@ -98,6 +99,10 @@
     <ClInclude Include="std.h" />
     <ClInclude Include="structs.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="ToolState.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Adventures\Available.bin" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C1CD6DA8-D855-4066-AE50-93217ADECD18}</ProjectGuid>
