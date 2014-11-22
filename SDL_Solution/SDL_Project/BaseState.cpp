@@ -13,7 +13,7 @@ CBaseState::~CBaseState(void)
 }
 
 void CBaseState::Initialize(CRenderManager* pRenderManager, CTextureManager* pTextureManager,
-		CInputManager* pInputManager, CFontManager* pFontManager)
+	CInputManager* pInputManager, CFontManager* pFontManager)
 {
 	m_pRenderManager = pRenderManager;
 	m_pTextureManager = pTextureManager;
@@ -58,10 +58,11 @@ void CBaseState::Shutdown(void)
 	m_pRenderManager->DeleteAllQuads();
 }
 
+// Helpers
 CQuad* CBaseState::CreateQuad(const char* szTextureName, const FloatRect& tDstRect, const eLAYER& ucLayer, const SDL_Color& tColor)
 {
 	CQuad* pQuad;
-	if(szTextureName == NULL)
+	if (szTextureName == NULL)
 	{
 		pQuad = new CQuad(NULL, ucLayer, tColor, tDstRect);
 	}
@@ -74,4 +75,35 @@ CQuad* CBaseState::CreateQuad(const char* szTextureName, const FloatRect& tDstRe
 	m_pRenderManager->AddQuad(pQuad);
 	return pQuad;
 }
+
+void CBaseState::ProcessButtons(void)
+{
+	SDL_Rect buttonRect;
+	SDL_Point selectorPos = m_pInputManager->GetSelectorPos();
+	std::map<Sint16, CQuad*>::iterator buttonIter = m_Buttons.begin();
+	for (; buttonIter != m_Buttons.cend(); ++buttonIter)
+	{
+		buttonRect = buttonIter->second->GetPixelDstRect();
+
+		if (PointInRect(&selectorPos, &buttonRect) == SDL_TRUE)
+		{
+			if (m_sOverKey != buttonIter->first)
+			{
+				m_pInputManager->SetHandCursor();
+				m_sOverKey = buttonIter->first;
+			}
+			break;
+		}
+	}
+
+	if (m_sOverKey != INVALID_BUTTON)
+	{
+		if (buttonIter == m_Buttons.cend())
+		{
+			m_pInputManager->SetArrowCursor();
+			m_sOverKey = INVALID_BUTTON;
+		}
+	}
+}
+
 

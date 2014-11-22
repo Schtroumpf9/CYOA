@@ -17,68 +17,52 @@ void CMenuState::Initialize(CRenderManager* pRenderManager, CTextureManager* pTe
 	CBaseState::Initialize(pRenderManager, pTextureManager, pInputManager, pFontManager);
 
 	// Add Initial Images
-	CQuad* pQuad;
-	CQuad* pText;
-	float fWidth;
 
-	// BACK_LAYERground
-	CreateQuad(NULL, FloatRect{ 0.f, 0.f, 1.f, 1.f }, BACK_LAYER, SDL_Color{ 0, 0, 0, 255 });
-
-	// Options Text
-	pText = m_pFontManager->TTFCreateText("Options", SDL_Color{ 0, 255, 0, 255 }, TextData{ .075f, .075f, .025f, TOP_LEFT_POS });
+	// Background
+	CreateQuad(NULL, FloatRect{ 0.f, 0.f, 1.f, 1.f }, BACK_LAYER/*, SDL_Color{ 0, 0, 0, 255 }*/);
 
 	// Options Button
-	fWidth = pText->GetDstRect().w + 0.05f;
-	pQuad = CreateQuad("ButtonStd.png", FloatRect{ .05f, .05f, fWidth, .075f }, MID_LAYER, SDL_Color{ 127, 127, 127, 255 });
-	m_Buttons[OPTIONS_MENU_BUTTON] = pQuad;
-
-	// Quit Text
-	pText = m_pFontManager->TTFCreateText("Quit", SDL_Color{ 255, 0, 0, 255 }, TextData{ .95f, .05f, .025f, TOP_RIGHT_POS });
+	m_Buttons[OPTIONS_MENU_BUTTON] = CreateQuad("OptionsButton.png", FloatRect{ .028125f, .05f, .05625f, .1f }, MID_LAYER, SDL_Color{ 127, 127, 127, 255 });
 
 	// Quit Button
-	//fWidth = pText->GetDstRect().w + 0.075f;
-	//pQuad = CreateQuad(NULL, FloatRect{ 1.f - fWidth, 0.f, fWidth, .1f }, MID_LAYER, SDL_Color{ 95, 0, 0, 255 });
+	m_Buttons[QUIT_MENU_BUTTON] = CreateQuad("QuitButton.png", FloatRect{ 1.f - .028125f - .05625f, .05f, .05625f, .1f }, MID_LAYER, SDL_Color{ 127, 0, 0, 255 });
 
-	// Menu Text
-	pText = m_pFontManager->TTFCreateText("Play", SDL_Color{ 0, 127, 127, 255 }, TextData{ .5f, .5f, .1f, MIDDLE_POS });
+	// Menu Buttons
+	SDL_Color tColor = { 0, 0, 0, 255 };
+	m_Buttons[CHOOSE_MENU_BUTTON] = m_pFontManager->TTFCreateText("Choose", tColor, TextData{ .45f, .45f, .05f, BOTTOM_RIGHT_POS });
+
+	m_Buttons[CREATE_MENU_BUTTON] = m_pFontManager->TTFCreateText("Create", tColor, TextData{ .45f, .55f, .05f, TOP_RIGHT_POS });
+
+	m_pFontManager->TTFCreateText("Your Own Adventure", tColor, TextData{ .55f, .475f, .05f, TOP_LEFT_POS });
 }
 
 eSTATE_TYPE CMenuState::Update(float fDeltaTime)
 {
-	SDL_Rect buttonRect;
-	SDL_Point selectorPos = m_pInputManager->GetSelectorPos();
-	std::map<Sint16, CQuad*>::iterator buttonIter = m_Buttons.begin();
-	for (; buttonIter != m_Buttons.cend(); ++buttonIter)
-	{
-		buttonRect = buttonIter->second->GetPixelDstRect();
+	SDL_Event tEvent;
 
-		if (PointInRect(&selectorPos, &buttonRect) == SDL_TRUE)
-		{
-			if (m_sOverKey != buttonIter->first)
-			{
-				if (m_sOverKey != INVALID_BUTTON)
-					m_Buttons[m_sOverKey]->SetTexture(m_pTextureManager->GetTexture("ButtonStd.png"));
-				buttonIter->second->SetTexture(m_pTextureManager->GetTexture("ButtonOver.png"));
-				m_sOverKey = buttonIter->first;
-				break;
-			}
-		}
+	// Escape to Quit
+	if (m_pInputManager->KeyEvent(SDLK_ESCAPE, KEY_UP))
+	{
+		tEvent.type = SDL_QUIT;
+		SDL_PushEvent(&tEvent);
 	}
+
+	ProcessButtons();
 
 	if (m_sOverKey != INVALID_BUTTON)
 	{
-		if (buttonIter == m_Buttons.cend())
+		if (m_pInputManager->SelectorUpEvent())
 		{
-			m_Buttons[m_sOverKey]->SetTexture(m_pTextureManager->GetTexture("ButtonStd.png"));
-			m_sOverKey = INVALID_BUTTON;
-		}
-		else if (m_pInputManager->SelectorDownEvent())
-		{
-			m_Buttons[m_sOverKey]->SetTexture(m_pTextureManager->GetTexture("ButtonDown.png"));
-		}
-		else if (m_pInputManager->SelectorUpEvent())
-		{
-			return OPTIONS_STATE;
+			m_pInputManager->SetArrowCursor();
+			switch (m_sOverKey)
+			{
+			case QUIT_MENU_BUTTON:
+				tEvent.type = SDL_QUIT;
+				SDL_PushEvent(&tEvent);
+				break;
+			case OPTIONS_MENU_BUTTON:
+				return OPTIONS_STATE;
+			}
 		}
 	}
 

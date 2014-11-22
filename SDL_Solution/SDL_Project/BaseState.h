@@ -29,6 +29,7 @@ public:
 protected:
 	// Helpers
 	CQuad* CreateQuad(const char* szTextureName = NULL, const FloatRect& tDstRect = { 0.0f, 0.0f, 1.0f, 1.0f }, const eLAYER& ucLayer = MID_LAYER, const SDL_Color& tColor = { 255, 255, 255, 255 });
+	void ProcessButtons(void);
 
 	eSTATE_TYPE m_eType;
 

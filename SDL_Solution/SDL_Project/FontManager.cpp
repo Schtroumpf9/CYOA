@@ -18,7 +18,8 @@ void CFontManager::Initialize(CRenderManager* pRenderManager)
 
 	SDL_ERROR_CHECK(TTF_Init() == -1, "SDL_ttf could not initialize!");
 
-	m_pTTFont = TTF_OpenFont("../Fonts/vgaoem.fon", 72);
+	m_pTTFont = TTF_OpenFont("../Fonts/unispace.ttf", 72);
+	TTF_SetFontHinting(m_pTTFont, TTF_HINTING_LIGHT);
 }
 
 void CFontManager::Shutdown(void)
@@ -59,7 +60,7 @@ void CFontManager::TTFChangeTextData(CQuad* out_pQuad, const TextData& tData)
 // Helpers
 SDL_Texture* CFontManager::TTFLoadText(float& out_fWidth, const char* szText, const SDL_Color& tColor, const float fHeight)
 {
-	SDL_Surface* pTextSurface = TTF_RenderText_Solid(m_pTTFont, szText, tColor);
+	SDL_Surface* pTextSurface = TTF_RenderText_Blended(m_pTTFont, szText, tColor);
 	SDL_ERROR_CHECK(pTextSurface == NULL, "Unable to load text surface!");
 
 	SDL_Texture* pTextTexture = SDL_CreateTextureFromSurface(m_pRenderManager->GetRenderer(), pTextSurface);

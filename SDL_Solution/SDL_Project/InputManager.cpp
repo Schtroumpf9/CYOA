@@ -29,6 +29,13 @@ void CInputManager::Input(void)
 	m_bWindowResize = false;
 	m_bAny = false;
 
+	std::map<SDL_Keycode, eKEY_STATE>::iterator keyIter;
+	for (keyIter = m_KeyStates.begin(); keyIter != m_KeyStates.cend(); ++keyIter)
+	{
+		if (keyIter->second == KEY_UP)
+			keyIter->second = KEY_STD;
+	}
+
 	SDL_Event e;
 	while (SDL_PollEvent(&e) != 0)
 	{
@@ -48,8 +55,12 @@ void CInputManager::Input(void)
 			}
 		}
 			break;
+		case SDL_KEYDOWN:
+			m_KeyStates[e.key.keysym.sym] = KEY_DOWN;
+			m_bAny = true;
+			break;
 		case SDL_KEYUP:
-			KeyUp(e);
+			m_KeyStates[e.key.keysym.sym] = KEY_UP;
 			m_bAny = true;
 			break;
 		case SDL_MOUSEBUTTONDOWN:
@@ -67,7 +78,18 @@ void CInputManager::Input(void)
 
 void CInputManager::Shutdown(void)
 {
+	SDL_FreeCursor(SDL_GetCursor());
+}
 
+// Change Cursors
+void CInputManager::SetArrowCursor(void)
+{
+	SetCursor(SDL_SYSTEM_CURSOR_ARROW);
+}
+
+void CInputManager::SetHandCursor(void)
+{
+	SetCursor(SDL_SYSTEM_CURSOR_HAND);
 }
 
 // Input Checks
@@ -96,6 +118,13 @@ bool CInputManager::AnyEvent(void)
 	return m_bAny;
 }
 
+bool CInputManager::KeyEvent(SDL_Keycode tKey, eKEY_STATE eState)
+{
+	if (m_KeyStates[tKey] == eState)
+		return true;
+	return false;
+}
+
 // Event Data Accessors
 SDL_Point CInputManager::GetWindowSize(void)
 {
@@ -107,17 +136,13 @@ SDL_Point CInputManager::GetSelectorPos(void)
 	return m_tSelectorPos;
 }
 
-// Input Helpers
-void CInputManager::KeyUp(SDL_Event e)
+void CInputManager::SetCursor(SDL_SystemCursor tType)
 {
-	switch (e.key.keysym.sym)
-	{
-	case SDLK_ESCAPE:
-		m_bQuit = true;
-		break;
-	}
+	SDL_FreeCursor(SDL_GetCursor());
+	SDL_SetCursor(SDL_CreateSystemCursor(tType));
 }
 
+// Input Helpers
 void CInputManager::MouseClick(SDL_Event e)
 {
 	switch (e.button.button)
