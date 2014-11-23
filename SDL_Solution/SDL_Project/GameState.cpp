@@ -17,11 +17,16 @@ void CGameState::Initialize(CRenderManager* pRenderManager, CTextureManager* pTe
 {
 	CBaseState::Initialize(pRenderManager, pTextureManager, pInputManager, pFontManager);
 
+	// Add Initial Images
+	CQuad* pQuad;
+
 	// Background
-	CreateQuad(NULL, FloatRect{ 0.f, 0.f, 1.f, 1.f }, BACK_LAYER, CUSTOM_QUAD, SDL_Color{ 0, 0, 0, 255 });
+	CreateQuad(SDL_Color{ 0, 0, 0, 255 }, FloatRect{ 0.f, 0.f, 1.f, 1.f }, TOP_LEFT_POS, CUSTOM_QUAD, BACK_LAYER);
 
 	// Back Button
-	m_Buttons[BACK_OPTIONS_BUTTON] = CreateQuad("BackButton.png", FloatRect{ .028125f, .05f, .05625f, .1f }, MID_LAYER, CUSTOM_QUAD, SDL_Color{ 127, 127, 127, 255 });
+	pQuad = CreateQuad("BackButton.png", FloatRect{ 0.05f, 0.05f, .1f, .1f }, TOP_LEFT_POS, SQUAREH_QUAD);
+	pQuad->SetColor(SDL_Color{ 127, 127, 127, 255 });
+	m_Buttons[BACK_OPTIONS_BUTTON] = pQuad;
 
 	// Read Available Adventures
 	//SDL_GetPrefPath for user files
@@ -42,16 +47,13 @@ void CGameState::Initialize(CRenderManager* pRenderManager, CTextureManager* pTe
 
 	SDL_RWops* file = SDL_RWFromFile("../Adventures/Available.bin", "rb");
 	SDL_ERROR_CHECK(file == NULL, "SDL could not open file!");
-	Uint8 ucCount, ucLength;
+	Uint8 ucCount;
 	SDL_RWread(file, &ucCount, sizeof(ucCount), 1);
 	char** szAdventures = new char*[ucCount];
 	Uint8 i;
 	for (i = 0; i < ucCount; ++i)
 	{
-		SDL_RWread(file, &ucLength, sizeof(ucLength), 1);
-		szAdventures[i] = new char[ucLength+1];
-		SDL_RWread(file, szAdventures[i], sizeof(char) * (ucLength), 1);
-		szAdventures[i][ucLength] = '\0';
+		szAdventures[i] = ReadString(file);
 	}
 	SDL_RWclose(file);
 

@@ -18,12 +18,15 @@ void COptionsState::Initialize(CRenderManager* pRenderManager, CTextureManager* 
 	CBaseState::Initialize(pRenderManager, pTextureManager, pInputManager, pFontManager);
 
 	// Add Initial Images
+	CQuad* pQuad;
 
 	// Background
-	CreateQuad(NULL, FloatRect{ 0.f, 0.f, 1.f, 1.f }, BACK_LAYER, CUSTOM_QUAD, SDL_Color{ 0, 0, 0, 255 });
+	CreateQuad(SDL_Color{ 0, 0, 0, 255 }, FloatRect{ 0.f, 0.f, 1.f, 1.f }, TOP_LEFT_POS, CUSTOM_QUAD, BACK_LAYER);
 
 	// Back Button
-	m_Buttons[BACK_OPTIONS_BUTTON] = CreateQuad("BackButton.png", FloatRect{ .028125f, .05f, .05625f, .1f }, MID_LAYER, CUSTOM_QUAD, SDL_Color{ 127, 127, 127, 255 });
+	pQuad = CreateQuad("BackButton.png", FloatRect{ 0.05f, 0.05f, .1f, .1f }, TOP_LEFT_POS, SQUAREH_QUAD);
+	pQuad->SetColor(SDL_Color{ 127, 127, 127, 255 });
+	m_Buttons[BACK_OPTIONS_BUTTON] = pQuad;
 }
 
 eSTATE_TYPE COptionsState::Update(float fDeltaTime)

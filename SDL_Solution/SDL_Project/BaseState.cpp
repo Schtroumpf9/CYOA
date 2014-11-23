@@ -59,19 +59,17 @@ void CBaseState::Shutdown(void)
 }
 
 // Helpers
-CQuad* CBaseState::CreateQuad(const char* szTextureName, const FloatRect& tDstRect, const eLAYER eLayer, const eQUAD_TYPE eType, const SDL_Color& tColor)
+CQuad* CBaseState::CreateQuad(const char* szTextureName, const FloatRect& tDstRect, const eQUAD_POS_TYPE ePosType, const eQUAD_TYPE eType, const eLAYER eLayer)
 {
-	CQuad* pQuad;
-	if (szTextureName == NULL)
-	{
-		pQuad = new CQuad(NULL, tDstRect, eLayer, eType, tColor);
-	}
-	else
-	{
-		SDL_Texture* pTexture = m_pTextureManager->GetTexture(szTextureName);
-		pQuad = new CQuad(pTexture, tDstRect, eLayer, eType, tColor);
-	}
+	SDL_Texture* pTexture = m_pTextureManager->GetTexture(szTextureName);
+	CQuad* pQuad = new CQuad(pTexture, tDstRect, ePosType, eType, eLayer);
+	m_pRenderManager->AddQuad(pQuad);
+	return pQuad;
+}
 
+CQuad* CBaseState::CreateQuad(const SDL_Color tColor, const FloatRect& tDstRect, const eQUAD_POS_TYPE ePosType, const eQUAD_TYPE eType, const eLAYER eLayer)
+{
+	CQuad* pQuad = new CQuad(tColor, tDstRect, ePosType, eType, eLayer);
 	m_pRenderManager->AddQuad(pQuad);
 	return pQuad;
 }
@@ -105,5 +103,16 @@ void CBaseState::ProcessButtons(void)
 		}
 	}
 }
+
+char* CBaseState::ReadString(SDL_RWops* pFile)
+{
+	Uint8 ucLength;
+	SDL_RWread(pFile, &ucLength, sizeof(ucLength), 1);
+	char* szData = new char[ucLength + 1];
+	SDL_RWread(pFile, szData, sizeof(char) * (ucLength), 1);
+	szData[ucLength] = '\0';
+	return szData;
+}
+
 
 

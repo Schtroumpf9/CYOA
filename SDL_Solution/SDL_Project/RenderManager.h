@@ -32,10 +32,14 @@ private:
 	// SDL Variables
 	SDL_Window* m_pWindow;
 	SDL_Renderer* m_pRenderer;
+	SDL_DisplayMode m_tDisplayMode;
+	Uint32 m_unDisplayIndex;
 
 	// Screen variables
-	Uint32 m_unWindowWidth;
-	Uint32 m_unWindowHeight;
+	SDL_Point m_tWindowSize;
+	SDL_Point m_tFittedSize;
+	SDL_Point m_tFittedOffset;
+	double m_fAspectRatio;
 	bool m_bFullscreen;
 
 	std::forward_list<CQuad*> m_Quads;

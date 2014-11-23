@@ -4,7 +4,7 @@
 #include "Quad.h"
 
 // Class Functions
-CRenderManager::CRenderManager(void) : m_unWindowWidth(1600), m_unWindowHeight(900), m_bFullscreen(false), m_pWindow(NULL), m_pRenderer(NULL)
+CRenderManager::CRenderManager(void) : m_tWindowSize(SDL_Point{ 960, 640 }), m_bFullscreen(false), m_pWindow(NULL), m_pRenderer(NULL)
 {
 }
 
@@ -14,7 +14,7 @@ CRenderManager::~CRenderManager(void)
 
 void CRenderManager::Initialize(void)
 {
-	m_pWindow = SDL_CreateWindow("SDL Project", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_unWindowWidth, m_unWindowHeight, SDL_WINDOW_SHOWN | SDL_WINDOW_MOUSE_FOCUS | SDL_WINDOW_RESIZABLE);
+	m_pWindow = SDL_CreateWindow("SDL Project", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_tWindowSize.x, m_tWindowSize.y, SDL_WINDOW_SHOWN | SDL_WINDOW_MOUSE_FOCUS | SDL_WINDOW_RESIZABLE);
 	SDL_ERROR_CHECK(m_pWindow == NULL, "Window failed to create.");
 
 	m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -23,6 +23,13 @@ void CRenderManager::Initialize(void)
 	SDL_ERROR_CHECK(SDL_SetRenderDrawColor(m_pRenderer, 0, 255, 255, 255) < 0, "Draw color failed to be set.");
 
 	SDL_ERROR_CHECK((IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG) == 0, "IMG extension failed to initialize.");
+
+	m_unDisplayIndex = SDL_GetWindowDisplayIndex(m_pWindow);
+	SDL_GetCurrentDisplayMode(m_unDisplayIndex, &m_tDisplayMode);
+	//m_fAspectRatio = static_cast<float>(m_tDisplayMode.w) / m_tDisplayMode.h;
+	m_fAspectRatio = 3 / 2;
+	m_tFittedSize = m_tWindowSize;
+	m_tFittedOffset = SDL_Point{ 0, 0 };
 }
 
 void CRenderManager::Render(void)
@@ -39,14 +46,32 @@ void CRenderManager::Render(void)
 
 void CRenderManager::Resize(const SDL_Point& tWindowSize)
 {
-	m_unWindowWidth = (Uint32)tWindowSize.x;
-	m_unWindowHeight = (Uint32)tWindowSize.y;
+	m_tWindowSize.x = tWindowSize.x;
+	m_tWindowSize.y = tWindowSize.y;
+
+	SDL_Point tSizeDiff{ tWindowSize.x - m_tFittedSize.x, tWindowSize.y - m_tFittedSize.y };
+	tSizeDiff.y = static_cast<int>(tSizeDiff.y * m_fAspectRatio);
+	if ((tSizeDiff.x < tSizeDiff.y && tSizeDiff.x < 0) || 
+		(tSizeDiff.x < tSizeDiff.y && tSizeDiff.x > 0)) // sizing horizontally
+	{
+		m_tFittedSize.x = m_tWindowSize.x;
+		m_tFittedSize.y = static_cast<int>(m_tFittedSize.x / m_fAspectRatio);
+	}
+	else if ((tSizeDiff.y < tSizeDiff.x && tSizeDiff.y < 0) ||
+		(tSizeDiff.y < tSizeDiff.x && tSizeDiff.y > 0)) // sizing vertically
+	{
+		m_tFittedSize.y = m_tWindowSize.y;
+		m_tFittedSize.x = static_cast<int>(m_tFittedSize.y * m_fAspectRatio);
+	}
+
+	m_tFittedOffset.x = m_tWindowSize.x / 2 - m_tFittedSize.x / 2;
+	m_tFittedOffset.y = m_tWindowSize.y / 2 - m_tFittedSize.y / 2;
 
 	// Resize all quads to be appropriate dimensions
 	std::forward_list<CQuad*>::iterator quadIter = m_Quads.begin();
 	for (; quadIter != m_Quads.cend(); ++quadIter)
 	{
-		UpdateQuad((*quadIter));
+		UpdateQuad(*quadIter);
 	}
 }
 
@@ -114,37 +139,34 @@ void CRenderManager::UpdateQuad(CQuad* pQuad)
 {
 	// Set Quad Data in terms of the Window size
 	SDL_Rect tPixelDstRect;
+	tPixelDstRect.x = static_cast<int>(pQuad->GetTrueDstRect().x * m_tFittedSize.x);
+	tPixelDstRect.y = static_cast<int>(pQuad->GetTrueDstRect().y * m_tFittedSize.y);
 	switch (pQuad->GetQuadType())
 	{
 	case CUSTOM_QUAD:
 	{
-		tPixelDstRect.x = static_cast<int>(pQuad->GetDstRect().x * m_unWindowWidth);
-		tPixelDstRect.y = static_cast<int>(pQuad->GetDstRect().y * m_unWindowHeight);
-		tPixelDstRect.w = static_cast<int>(pQuad->GetDstRect().w * m_unWindowWidth);
-		tPixelDstRect.h = static_cast<int>(pQuad->GetDstRect().h * m_unWindowHeight);
+		tPixelDstRect.w = static_cast<int>(pQuad->GetTrueDstRect().w * m_tFittedSize.x);
+		tPixelDstRect.h = static_cast<int>(pQuad->GetTrueDstRect().h * m_tFittedSize.y);
 		break;
 	}
 	case SQUAREW_QUAD:
 	{
-		tPixelDstRect.x = static_cast<int>(pQuad->GetDstRect().x * m_unWindowWidth);
-		tPixelDstRect.y = static_cast<int>(pQuad->GetDstRect().y * m_unWindowWidth);
-		tPixelDstRect.w = static_cast<int>(pQuad->GetDstRect().w * m_unWindowWidth);
-		tPixelDstRect.h = static_cast<int>(pQuad->GetDstRect().h * m_unWindowWidth);
+		tPixelDstRect.w = static_cast<int>(pQuad->GetTrueDstRect().w * m_tFittedSize.x);
+		tPixelDstRect.h = tPixelDstRect.w;
 		break;
 	}
 	case SQUAREH_QUAD:
 	{
-		tPixelDstRect.x = static_cast<int>(pQuad->GetDstRect().x * m_unWindowHeight);
-		tPixelDstRect.y = static_cast<int>(pQuad->GetDstRect().y * m_unWindowHeight);
-		tPixelDstRect.w = static_cast<int>(pQuad->GetDstRect().w * m_unWindowHeight);
-		tPixelDstRect.h = static_cast<int>(pQuad->GetDstRect().h * m_unWindowHeight);
+		tPixelDstRect.h = static_cast<int>(pQuad->GetTrueDstRect().h * m_tFittedSize.y);
+		tPixelDstRect.w = tPixelDstRect.h;
 		break;
 	}
 	default:
 		break;
 	}
 
-
+	tPixelDstRect.x += m_tFittedOffset.x/* + m_tFittedSize.x / 20*/;
+	tPixelDstRect.y += m_tFittedOffset.y/* + m_tFittedSize.y / 20*/;
 	pQuad->SetPixelDstRect(tPixelDstRect);
 }
 

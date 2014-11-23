@@ -24,7 +24,6 @@ public:
 
 private:
 	SDL_Texture* TTFLoadText(float& out_fWidth, const char* szText, const SDL_Color& tColor, const float fHeight);
-	void SetTextDstRect(FloatRect& out_tDstRect, const TextData& tData, const float width);
 
 	TTF_Font* m_pTTFont;
 	CRenderManager* m_pRenderManager;

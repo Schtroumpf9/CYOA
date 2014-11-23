@@ -2,15 +2,16 @@
 #define GAME_H
 
 // TODO: Use SDL_GetPlatform for platform specific tasks
-// TODO: Add way to keep images from being scaled incorrectly (i.e. the options button is square and should stay square)
-//			Determine which ratio the screen res is closest to, determine the resolution that fits inside the screen with that ratio
-//			Adjust elements to that ratio and screen res
-//			Textures only need to change between 4:3 and 16:9
+// TODO: Option to change/lock Aspect Ratio and set Screen Res
 // TODO: Make easier way to make square or scaled images.
 //			(i.e. Create Quad by passing a single size value, and then either scales the other size to be the screen ratio, or makes them equal
+//			Might need to redo how a Quad's position and size are set
 
-// TODO: File I/O Manager
-//			Reading strings sucks
+// 16:10
+// 16:9
+// 5:3
+// 4:3
+// 3:2
 
 #include "structs.h"
 

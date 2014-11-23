@@ -26,9 +26,12 @@ public:
 
 protected:
 	// Helpers
-	CQuad* CreateQuad(const char* szTextureName = NULL, const FloatRect& tDstRect = { 0.0f, 0.0f, 1.0f, 1.0f },
-		const eLAYER eLayer = MID_LAYER, const eQUAD_TYPE eType = CUSTOM_QUAD, const SDL_Color& tColor = { 255, 255, 255, 255 });
+	CQuad* CreateQuad(const char* szTextureName, const FloatRect& tDstRect = { 0.0f, 0.0f, 1.0f, 1.0f },
+		const eQUAD_POS_TYPE ePosType = TOP_LEFT_POS, const eQUAD_TYPE eType = CUSTOM_QUAD, const eLAYER eLayer = MID_LAYER);
+	CQuad* CreateQuad(const SDL_Color tColor, const FloatRect& tDstRect = { 0.0f, 0.0f, 1.0f, 1.0f },
+		const eQUAD_POS_TYPE ePosType = TOP_LEFT_POS, const eQUAD_TYPE eType = CUSTOM_QUAD, const eLAYER eLayer = MID_LAYER);
 	void ProcessButtons(void);
+	static char* ReadString(SDL_RWops* pFile);
 
 	eSTATE_TYPE m_eType;
 

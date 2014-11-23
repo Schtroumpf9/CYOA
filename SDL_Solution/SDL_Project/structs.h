@@ -12,7 +12,7 @@ typedef struct TextData
 {
 	float x, y;
 	float pt;
-	eTEXT_POS_TYPE type;
+	eQUAD_POS_TYPE type;
 } TextData;
 
 #endif

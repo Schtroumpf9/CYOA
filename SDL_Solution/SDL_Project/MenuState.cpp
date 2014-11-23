@@ -17,15 +17,20 @@ void CMenuState::Initialize(CRenderManager* pRenderManager, CTextureManager* pTe
 	CBaseState::Initialize(pRenderManager, pTextureManager, pInputManager, pFontManager);
 
 	// Add Initial Images
+	CQuad* pQuad;
 
 	// Background
-	CreateQuad(NULL, FloatRect{ 0.f, 0.f, 1.f, 1.f }, BACK_LAYER, CUSTOM_QUAD, SDL_Color{ 0, 0, 0, 255 });
+	CreateQuad(SDL_Color{ 0, 0, 0, 255 }, FloatRect{ 0.f, 0.f, 1.f, 1.f }, TOP_LEFT_POS, CUSTOM_QUAD, BACK_LAYER);
 
 	// Options Button
-	m_Buttons[OPTIONS_MENU_BUTTON] = CreateQuad("OptionsButton.png", FloatRect{ .05f, .05f, .1f, .1f }, MID_LAYER, SQUAREH_QUAD, SDL_Color{ 127, 127, 127, 255 });
+	pQuad = CreateQuad("OptionsButton.png", FloatRect{ 0.05f, 0.05f, .1f, .1f }, TOP_LEFT_POS, SQUAREH_QUAD);
+	pQuad->SetColor(SDL_Color{ 127, 127, 127, 255 });
+	m_Buttons[OPTIONS_MENU_BUTTON] = pQuad;
 
 	// Quit Button
-	m_Buttons[QUIT_MENU_BUTTON] = CreateQuad("QuitButton.png", FloatRect{ 1.6278, .05f, .1f, .1f }, MID_LAYER, SQUAREH_QUAD, SDL_Color{ 127, 0, 0, 255 });
+	pQuad = CreateQuad("QuitButton.png", FloatRect{ .95f, .05f, .1f, .1f }, TOP_RIGHT_POS, SQUAREH_QUAD);
+	pQuad->SetColor(SDL_Color{ 127, 0, 0, 255 });
+	m_Buttons[QUIT_MENU_BUTTON] = pQuad;
 
 	// Menu Buttons
 	SDL_Color tColor = { 0, 255, 0, 255 };
@@ -36,7 +41,8 @@ void CMenuState::Initialize(CRenderManager* pRenderManager, CTextureManager* pTe
 	m_pFontManager->TTFCreateText("Your Own Adventure", tColor, TextData{ .43f, .475f, .05f, TOP_LEFT_POS });
 
 	// Menu Fluff
-	CreateQuad("MenuBracket.png", FloatRect{ .33f, .425f, .1f, .15f }, MID_LAYER, CUSTOM_QUAD, SDL_Color{ 0, 127, 0, 255 });
+	pQuad = CreateQuad("MenuBracket.png", FloatRect{ .33f, .425f, .1f, .15f });
+	pQuad->SetColor(SDL_Color{ 0, 127, 0, 255 });
 }
 
 eSTATE_TYPE CMenuState::Update(float fDeltaTime)

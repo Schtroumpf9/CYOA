@@ -7,17 +7,16 @@ class CQuad
 {
 public:
 	// Constructors
-	CQuad(SDL_Texture* pTexture = NULL, FloatRect tDstRect = { 0.0f, 0.0f, 1.0f, 1.0f }, eLAYER eLayer = MID_LAYER, eQUAD_TYPE eType = CUSTOM_QUAD, SDL_Color tColor = { 255, 255, 255, 255 });
+	CQuad(SDL_Texture* pTexture, FloatRect tDstRect = { 0.0f, 0.0f, 1.0f, 1.0f }, eQUAD_POS_TYPE ePosType = TOP_LEFT_POS, eQUAD_TYPE eType = CUSTOM_QUAD, eLAYER eLayer = MID_LAYER);
+	CQuad(SDL_Color tColor, FloatRect tDstRect = { 0.0f, 0.0f, 1.0f, 1.0f }, eQUAD_POS_TYPE ePosType = TOP_LEFT_POS, eQUAD_TYPE eType = CUSTOM_QUAD, eLAYER eLayer = MID_LAYER);
 	// Destructors
 	~CQuad(void);
 
 	// Mutators
 	inline void SetColor(SDL_Color tColor) { m_tColor = tColor; }
 	inline void SetSrcRect(FloatRect tSrcRect) { m_tSrcRect = tSrcRect; }
-	inline void SetDstRect(FloatRect tDstRect) { m_tDstRect = tDstRect; }
 	inline void SetTexture(SDL_Texture* pTexture) { m_pTexture = pTexture; }
-	inline void SetPixelDstRect(SDL_Rect tPixelDstRect) { m_tPixelDstRect = tPixelDstRect; }
-	inline void SetPixelSrcRect(SDL_Rect tPixelSrcRect) { m_tPixelSrcRect = tPixelSrcRect; }
+	
 	// Accessors
 	inline SDL_Color GetColor(void) const { return m_tColor; }
 	inline FloatRect GetSrcRect(void) const { return m_tSrcRect; }
@@ -28,14 +27,25 @@ public:
 	inline eLAYER GetLayer(void) const { return m_eLayer; }
 	inline eQUAD_TYPE GetQuadType(void) const { return m_eType; }
 
+	// Public Helpers
+	void MoveDstQuad(const FloatRect& tNewDstRect, eQUAD_POS_TYPE ePosType = INVALID_POS);
+
+	friend class CRenderManager;
+protected:
+	inline void SetPixelDstRect(SDL_Rect tPixelDstRect) { m_tPixelDstRect = tPixelDstRect; }
+	inline void SetPixelSrcRect(SDL_Rect tPixelSrcRect) { m_tPixelSrcRect = tPixelSrcRect; }
+	inline FloatRect GetTrueDstRect(void) const { return m_tTrueDstRect; }
+
 private:
 	// Quad data
 	SDL_Texture* m_pTexture;
 	SDL_Color m_tColor;
 	FloatRect m_tDstRect;
+	FloatRect m_tTrueDstRect;
 	FloatRect m_tSrcRect;
 	eLAYER m_eLayer;
 	eQUAD_TYPE m_eType;
+	eQUAD_POS_TYPE m_ePosType;
 
 	// Pixel Rects
 	SDL_Rect m_tPixelDstRect;
