@@ -16,24 +16,23 @@ public:
 	void Shutdown(void);
 
 	// Change Cursors
-	void SetArrowCursor();
-	void SetHandCursor();
+	void SetCursor(SDL_SystemCursor tType);
 
 	// Input Checks
-	bool QuitEvent(void);
-	bool WindowResizeEvent(void);
-	bool SelectorUpEvent(void);
-	bool SelectorDownEvent(void);
-	bool AnyEvent(void);
+	bool QuitEvent(void) const { return m_bQuit; }
+	bool WindowResizeEvent(void) const { return m_bWindowResize; }
+	bool SelectorUpEvent(void) const { return m_bSelectorUp; }
+	bool SelectorDownEvent(void) const { return m_bSelectorDown; }
+	bool AnyEvent(void) const { return m_bAny; }
+	bool ScrollEvent(void) const { return m_bScroll; }
 	bool KeyEvent(SDL_Keycode tKey, eKEY_STATE eState);
 
 	// Event Data Accessors
-	SDL_Point GetWindowSize(void);
-	SDL_Point GetSelectorPos(void);
+	SDL_Point GetWindowSize(void) const { return m_tWindowSize; }
+	SDL_Point GetSelectorPos(void) const { return m_tSelectorPos; }
+	Sint32 GetScrollAmount(void) const { return m_nScrollAmount; }
 
 private:
-	// Cursor Set Helper
-	void SetCursor(SDL_SystemCursor tType);
 	// Input Helpers
 	void MouseClick(SDL_Event e);
 
@@ -43,11 +42,13 @@ private:
 	bool m_bSelectorUp;
 	bool m_bSelectorDown;
 	bool m_bAny;
+	bool m_bScroll;
 
 	std::map<SDL_Keycode, eKEY_STATE> m_KeyStates;
 
 	// Event Data
 	SDL_Point m_tWindowSize;
 	SDL_Point m_tSelectorPos;
+	Sint32 m_nScrollAmount;
 };
 #endif

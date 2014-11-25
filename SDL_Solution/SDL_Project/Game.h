@@ -3,9 +3,8 @@
 
 // TODO: Use SDL_GetPlatform for platform specific tasks
 // TODO: Option to change/lock Aspect Ratio and set Screen Res
-// TODO: Make easier way to make square or scaled images.
-//			(i.e. Create Quad by passing a single size value, and then either scales the other size to be the screen ratio, or makes them equal
-//			Might need to redo how a Quad's position and size are set
+// TODO: Make sure using SDL version of any standard functions (e.g. SDL_strlen)
+// TODO: Alt+Enter Fullscreen
 
 // 16:10
 // 16:9

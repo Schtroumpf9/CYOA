@@ -16,7 +16,7 @@ public:
 	void Initialize(CRenderManager* pRenderManager);
 	void Shutdown(void);
 	
-	CQuad* TTFCreateText(const char* szText, const SDL_Color& tColor = { 255, 255, 255, 255 }, const TextData& tData = { 0.0f, 0.0f, 0.1f, TOP_LEFT_POS });
+	CQuad* TTFCreateText(const char* szText, const SDL_Color& tColor = { 255, 255, 255, 255 }, const TextData& tData = { 0.0f, 0.0f, 0.1f, TOP_LEFT_POS }, const eLAYER eLayer = FRONT_LAYER);
 
 	void TTFChangeText(CQuad* out_pQuad, const char* szText, const SDL_Color& tColor = { 255, 255, 255, 255 });
 

@@ -20,6 +20,15 @@ void CBaseState::Initialize(CRenderManager* pRenderManager, CTextureManager* pTe
 	m_pInputManager = pInputManager;
 	m_pFontManager = pFontManager;
 
+	m_cOverKey = INVALID_BUTTON;
+
+	m_szPrefPath = SDL_GetPrefPath(COMP_NAME, APP_NAME);
+
+	m_fInputDelayTimer = 0.25f;
+
+	m_ucNumButtons = 0;
+	m_ppButtons = NULL;
+
 	// FPS Stuff
 	m_unFrameCount = 0;
 	m_fFPS = 0.0f;
@@ -30,8 +39,6 @@ void CBaseState::Initialize(CRenderManager* pRenderManager, CTextureManager* pTe
 
 	tData.x += m_pFPSTextQuad->GetDstRect().w;
 	m_pFPSQuad = m_pFontManager->TTFCreateText("0.0f", tColor, tData);
-
-	m_sOverKey = INVALID_BUTTON;
 
 	// Last Thing!
 	m_unStartTime = SDL_GetTicks();
@@ -48,6 +55,10 @@ eSTATE_TYPE CBaseState::Update(float fDeltaTime)
 	m_OSS << m_fFPS;
 	m_pFontManager->TTFChangeText(m_pFPSQuad, m_OSS.str().c_str(), m_pFPSQuad->GetColor());
 
+	// Update Timer
+	if (m_fInputDelayTimer > 0.0f)
+		m_fInputDelayTimer -= fDeltaTime;
+
 	m_unFrameCount++;
 
 	return m_eType;
@@ -56,6 +67,9 @@ eSTATE_TYPE CBaseState::Update(float fDeltaTime)
 void CBaseState::Shutdown(void)
 {
 	m_pRenderManager->DeleteAllQuads();
+	delete[]m_ppButtons;
+	m_ppButtons = NULL;
+	m_ucNumButtons = 0;
 }
 
 // Helpers
@@ -76,34 +90,38 @@ CQuad* CBaseState::CreateQuad(const SDL_Color tColor, const FloatRect& tDstRect,
 
 void CBaseState::ProcessButtons(void)
 {
+	if (m_fInputDelayTimer > 0.0f)
+		return;
+
 	SDL_Rect buttonRect;
 	SDL_Point selectorPos = m_pInputManager->GetSelectorPos();
-	std::map<Sint16, CQuad*>::iterator buttonIter = m_Buttons.begin();
-	for (; buttonIter != m_Buttons.cend(); ++buttonIter)
+	Uint8 btnIter = 0;
+	for (; btnIter < m_ucNumButtons; ++btnIter)
 	{
-		buttonRect = buttonIter->second->GetPixelDstRect();
+		buttonRect = m_ppButtons[btnIter]->GetPixelDstRect();
 
 		if (PointInRect(&selectorPos, &buttonRect) == SDL_TRUE)
 		{
-			if (m_sOverKey != buttonIter->first)
+			if (m_cOverKey != btnIter)
 			{
-				m_pInputManager->SetHandCursor();
-				m_sOverKey = buttonIter->first;
+				m_pInputManager->SetCursor(SDL_SYSTEM_CURSOR_HAND);
+				m_cOverKey = btnIter;
 			}
 			break;
 		}
 	}
 
-	if (m_sOverKey != INVALID_BUTTON)
+	if (m_cOverKey != INVALID_BUTTON)
 	{
-		if (buttonIter == m_Buttons.cend())
+		if (btnIter == m_ucNumButtons)
 		{
-			m_pInputManager->SetArrowCursor();
-			m_sOverKey = INVALID_BUTTON;
+			m_pInputManager->SetCursor(SDL_SYSTEM_CURSOR_ARROW);
+			m_cOverKey = INVALID_BUTTON;
 		}
 	}
 }
 
+// Static Helpers
 char* CBaseState::ReadString(SDL_RWops* pFile)
 {
 	Uint8 ucLength;
@@ -114,5 +132,12 @@ char* CBaseState::ReadString(SDL_RWops* pFile)
 	return szData;
 }
 
-
-
+SDL_Color CBaseState::InvertColor(const SDL_Color& tColor)
+{
+	return SDL_Color{
+		255 - tColor.r,
+		255 - tColor.b,
+		255 - tColor.g,
+		tColor.a
+	};
+}

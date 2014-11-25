@@ -14,11 +14,13 @@ CRenderManager::~CRenderManager(void)
 
 void CRenderManager::Initialize(void)
 {
-	m_pWindow = SDL_CreateWindow("SDL Project", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_tWindowSize.x, m_tWindowSize.y, SDL_WINDOW_SHOWN | SDL_WINDOW_MOUSE_FOCUS | SDL_WINDOW_RESIZABLE);
+	m_pWindow = SDL_CreateWindow(APP_NAME, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_tWindowSize.x, m_tWindowSize.y, SDL_WINDOW_SHOWN | SDL_WINDOW_MOUSE_FOCUS | SDL_WINDOW_RESIZABLE);
 	SDL_ERROR_CHECK(m_pWindow == NULL, "Window failed to create.");
 
 	m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	SDL_ERROR_CHECK(m_pRenderer == NULL, "Renderer failed to create.");
+
+	SDL_ERROR_CHECK(SDL_SetRenderDrawBlendMode(m_pRenderer, SDL_BLENDMODE_BLEND) < 0, "Renderer failed to set Blend Mode");
 
 	SDL_ERROR_CHECK(SDL_SetRenderDrawColor(m_pRenderer, 0, 255, 255, 255) < 0, "Draw color failed to be set.");
 

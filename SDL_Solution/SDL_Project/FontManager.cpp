@@ -28,12 +28,12 @@ void CFontManager::Shutdown(void)
 	TTF_Quit();
 }
 
-CQuad* CFontManager::TTFCreateText(const char* szText, const SDL_Color& tColor, const TextData& tData)
+CQuad* CFontManager::TTFCreateText(const char* szText, const SDL_Color& tColor, const TextData& tData, const eLAYER eLayer)
 {
 	float fWidth;
 	SDL_Texture* pTexture = TTFLoadText(fWidth, szText, tColor, tData.pt);
 	FloatRect tDstRect = { tData.x, tData.y, fWidth, tData.pt };
-	CQuad* pQuad = new CQuad(pTexture, tDstRect, tData.type, CUSTOM_QUAD, FRONT_LAYER);
+	CQuad* pQuad = new CQuad(pTexture, tDstRect, tData.type, CUSTOM_QUAD, eLayer);
 	pQuad->SetColor(tColor);
 	m_pRenderManager->AddQuad(pQuad);
 	return pQuad;

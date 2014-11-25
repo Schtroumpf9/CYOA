@@ -44,11 +44,15 @@ void CIntroState::Initialize(CRenderManager* pRenderManager, CTextureManager* pT
 
 eSTATE_TYPE CIntroState::Update(float fDeltaTime)
 {
-	if (m_pInputManager->AnyEvent())
+	if (m_pInputManager->AnyEvent() && m_fInputDelayTimer <= 0.0f)
 		return MENU_STATE;
 
 	(m_bFadeIn) ? m_fFadeTimer += fDeltaTime : m_fFadeTimer -= fDeltaTime;
-	(m_bFadeIn) ? m_fFadeTimer = SDL_min(m_fFadeTimer, MAX_INTRO_FADE) : m_fFadeTimer = SDL_max(m_fFadeTimer, 0.0f);
+	if (m_bFadeIn && m_fFadeTimer > MAX_INTRO_FADE)
+		m_fFadeTimer = MAX_INTRO_FADE;
+	else if (!m_bFadeIn && m_fFadeTimer < 0.0f)
+		m_fFadeTimer = 0.0f;
+
 	SDL_Color tColor = m_pIntroText[m_ucCurText]->GetColor();
 	tColor.a = static_cast<Uint8>((m_fFadeTimer / MAX_INTRO_FADE) * 255);
 	m_pIntroText[m_ucCurText]->SetColor(tColor);

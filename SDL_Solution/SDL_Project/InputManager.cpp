@@ -17,9 +17,11 @@ void CInputManager::Initialize(void)
 	m_bSelectorUp = false;
 	m_bSelectorDown = false;
 	m_bAny = false;
+	m_bScroll = false;
 
 	m_tWindowSize.x = m_tWindowSize.y = 0;
 	m_tSelectorPos.x = m_tSelectorPos.y = 0;
+	m_nScrollAmount = 0;
 }
 
 void CInputManager::Input(void)
@@ -28,6 +30,7 @@ void CInputManager::Input(void)
 	m_bQuit = false;
 	m_bWindowResize = false;
 	m_bAny = false;
+	m_bScroll = false;
 
 	std::map<SDL_Keycode, eKEY_STATE>::iterator keyIter;
 	for (keyIter = m_KeyStates.begin(); keyIter != m_KeyStates.cend(); ++keyIter)
@@ -72,6 +75,10 @@ void CInputManager::Input(void)
 			m_tSelectorPos.x = e.motion.x;
 			m_tSelectorPos.y = e.motion.y;
 			break;
+		case SDL_MOUSEWHEEL:
+			m_bScroll = true;
+			m_nScrollAmount = e.wheel.y;
+			break;
 		default:
 			break;
 		}
@@ -83,59 +90,11 @@ void CInputManager::Shutdown(void)
 	SDL_FreeCursor(SDL_GetCursor());
 }
 
-// Change Cursors
-void CInputManager::SetArrowCursor(void)
-{
-	SetCursor(SDL_SYSTEM_CURSOR_ARROW);
-}
-
-void CInputManager::SetHandCursor(void)
-{
-	SetCursor(SDL_SYSTEM_CURSOR_HAND);
-}
-
-// Input Checks
-bool CInputManager::QuitEvent(void)
-{
-	return m_bQuit;
-}
-
-bool CInputManager::WindowResizeEvent(void)
-{
-	return m_bWindowResize;
-}
-
-bool CInputManager::SelectorUpEvent(void)
-{
-	return m_bSelectorUp;
-}
-
-bool CInputManager::SelectorDownEvent(void)
-{
-	return m_bSelectorDown;
-}
-
-bool CInputManager::AnyEvent(void)
-{
-	return m_bAny;
-}
-
 bool CInputManager::KeyEvent(SDL_Keycode tKey, eKEY_STATE eState)
 {
 	if (m_KeyStates[tKey] == eState)
 		return true;
 	return false;
-}
-
-// Event Data Accessors
-SDL_Point CInputManager::GetWindowSize(void)
-{
-	return m_tWindowSize;
-}
-
-SDL_Point CInputManager::GetSelectorPos(void)
-{
-	return m_tSelectorPos;
 }
 
 void CInputManager::SetCursor(SDL_SystemCursor tType)
