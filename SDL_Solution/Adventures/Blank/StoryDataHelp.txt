@@ -1,0 +1,40 @@
+1-byte value for number of scenes
+
+1-byte value for number of characters
+string for character name followed by RGBA color value
+(support for alpha to do 'ghostly' effects or something)
+
+always has a PLAYER character, and first thing you do is select that color
+and NARRATOR
+can add characters as you create the story
+
+input other names, and choose color
+structure containing name and color, put into array to be indexed
+
+PLAYER
+255
+255
+255
+255
+
+NARRATOR
+127
+127
+127
+255
+
+BLUE
+84
+44
+255
+255
+
+RED
+215
+40
+40
+255
+
+//in binary
+1-byte, 1-byte, string, 1-byte, 1-byte, 1-byte, 1-byte, 1-byte, string, etc.
+36PLAYER2552552552554BLUE84442552553RED2154040255

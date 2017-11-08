@@ -1,0 +1,9 @@
+6
+Scene6
+2
+0
+1
+22
+You have won the game!
+3
+1

@@ -1,0 +1,9 @@
+6
+Scene5
+2
+0
+3
+30
+You must go to the next scene.
+1
+7

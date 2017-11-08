@@ -47,5 +47,7 @@ private:
 	void GameInit(void);
 	eSTATE_TYPE GameUpdate(float fDeltaTime);
 	void GameShutdown(void);
+
+
 };
 #endif

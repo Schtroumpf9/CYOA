@@ -64,6 +64,6 @@ private:
 	CQuad* m_pFPSQuad;
 
 	// Button Type Enum
-	virtual enum BTN_ID { INVALID_BUTTON = -1 };
+	enum BTN_ID { INVALID_BUTTON = -1 };
 };
 #endif

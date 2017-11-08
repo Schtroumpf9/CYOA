@@ -230,3 +230,5 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+GLSLComposer.exe
+SDL_Solution/.vs/SDL_Project/v15/Browse.VC.db

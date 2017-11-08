@@ -134,10 +134,10 @@ char* CBaseState::ReadString(SDL_RWops* pFile)
 
 SDL_Color CBaseState::InvertColor(const SDL_Color& tColor)
 {
-	return SDL_Color{
-		255 - tColor.r,
-		255 - tColor.b,
-		255 - tColor.g,
-		tColor.a
-	};
+	SDL_Color tInvertedColor;
+	tInvertedColor.r = 255 - tColor.r;
+	tInvertedColor.g = 255 - tColor.g;
+	tInvertedColor.b = 255 - tColor.b;
+	tInvertedColor.a = tColor.a;
+	return tInvertedColor;
 }

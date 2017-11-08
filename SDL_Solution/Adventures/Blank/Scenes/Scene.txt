@@ -1,0 +1,59 @@
+String for Scene Title (Automatically set to 'Scene' + scene number
+Number of Commands
+
+Command ID
+Followed by Command specific data
+
+read ID, then read specific data
+
+base Command class
+child class for each type of command
+each child has a 'read' function
+maybe a 'do' function?
+a 'quick do' as well
+
+slight amount of time between doing each command
+	(if timer^ is going, quick do won't do anything)
+
+
+DIALOGUE
+index for character
+string for the words said
+
+print out character name (e.g. 'SIMMONS: ', with colon and space)
+	if name = NARRATOR, do not print out name
+print out words over time, same amount of time for each letter (0.1f?)
+
+END
+1-byte value for index of next scene
+Maybe shows scene name of next scene on screen?
+stores value, deletes current scene, allocates next scene, restart loop of commands
+
+CHOICE
+1-byte value for number of choices
+string for each of the choices followed by scene value for next scene to go to
+
+print out strings (e.g. 'Go into the cave.')
+then add them to a seperate list to be checked against for input
+exits from command loop to wait for that input
+when input is pressed
+	stores next scene value
+	deletes current scene
+	allocates next scene
+	restart loop of commands
+
+WIN/LOSE
+boolean value (0/1) for if it is a win or loss
+0 for loss, 1 for win
+
+adds button for returning to the
+	last choice made
+	beginning of adventure
+	select screen
+then exits the command loop
+
+scene value for last choice made is saved always
+	(0 if no choices, and won't show button in that case)
+	deletes scene and makes new one, restarts command loop
+delete scene, and allocate the first one again (always 1 as first scene)
+does typical game shutdown and reloads the select screen

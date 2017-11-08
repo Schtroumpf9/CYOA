@@ -1,0 +1,45 @@
+6
+Scene1
+11
+0
+1
+48
+This is the first thing printed by the Narrator.
+0
+0
+11
+The player.
+0
+2
+8
+Red guy.
+0
+3
+15
+Blue character.
+0
+1
+16
+Narrator filler.
+0
+0
+11
+White text.
+0
+2
+22
+The quick brown fox...
+0
+3
+24
+jumps over the lazy dog.
+0
+0
+15
+Almost there...
+0
+1
+25
+Last thing to be printed.
+1
+2

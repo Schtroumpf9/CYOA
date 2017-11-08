@@ -1,0 +1,10 @@
+When pressing the "Next Scene" button, game checks what the last command read was, if END it then uses the data to go to the next scene, if CHOICE (and no choice chosen yet) it tells the user to make a choice first, if anything else it shows an error for no next scene
+
+Connecting branches back together would be difficult to do in tool and represent in tree visual
+
+Tool State loads in previous scene and next scene(s)
+	Makes altering where he scene goes to next and where it came from much easier
+	Button to add new scene in front of, or behind
+
+Need to be able to have empty scenes
+	Automatic delay between them if empty

@@ -66,7 +66,9 @@ void CGameState::SelectInit(void)
 	m_szCurAdventure = "";
 
 	// Read Available Adventures
-	SDL_RWops* file = SDL_RWFromFile(m_szPrefPath, "rb");
+	char* m_szPath = SDL_strdup(m_szPrefPath);
+	SDL_strlcat(m_szPath, "Available.bin", 256);
+	SDL_RWops* file = SDL_RWFromFile(m_szPath, "rb");
 	if (file == NULL)
 		file = SDL_RWFromFile("../Adventures/Available.bin", "rb");
 	SDL_RWread(file, &m_ucNumAdventures, sizeof(m_ucNumAdventures), 1);
